@@ -135,6 +135,24 @@ def get_perevals_by_user_email(
     return result
 
 
+@app.patch("/submitData/{pereval_id}/status")
+def update_status(pereval_id: int, status: str, db: Session = Depends(get_db)):
+    """
+    Обновление статуса модерации перевала
+    """
+    pereval = crud.get_pereval_by_id(db, pereval_id)
+    if not pereval:
+        raise HTTPException(status_code=404, detail="Перевал не найден")
+
+    if status not in ["new", "pending", "accepted", "rejected"]:
+        raise HTTPException(status_code=400, detail="Недопустимый статус")
+
+    pereval.status = status
+    db.commit()
+
+    return {"status": "ok", "message": "Статус обновлён"}
+
+
 @app.get("/")
 def root():
     return {
