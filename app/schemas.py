@@ -33,6 +33,16 @@ class PerevalCreateSchema(BaseModel):
     level: LevelSchema
     images: List[ImageSchema]
 
+class PerevalUpdateSchema(BaseModel):
+    """Схема для обновления перевала (без user)"""
+    beauty_title: Optional[str] = None
+    title: Optional[str] = None
+    other_titles: Optional[str] = None
+    connect: Optional[str] = None
+    coords: Optional[CoordsSchema] = None
+    level: Optional[LevelSchema] = None
+    images: Optional[List[ImageSchema]] = None
+
 class PerevalResponseSchema(BaseModel):
     id: int
     beauty_title: Optional[str] = None
@@ -50,3 +60,7 @@ class SubmitDataResponse(BaseModel):
     status: int
     message: str
     id: Optional[int] = None
+
+class UpdateResponse(BaseModel):
+    state: int  # 1 - успех, 0 - ошибка
+    message: str
